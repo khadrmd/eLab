@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class UserManager : MonoBehaviour
 {
@@ -31,16 +33,6 @@ public class UserManager : MonoBehaviour
     }
 
     public void Modify(AuthorizedUser aUser)
-    {
-
-    }
-
-    public void Login(string username, string password)
-    {
-
-    }
-
-    public void Signup(string username, string email, string passwword, string cPassword)
     {
 
     }
