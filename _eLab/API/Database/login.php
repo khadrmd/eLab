@@ -16,13 +16,16 @@
         $email = $_POST["email"];
         $password = $_POST["password"];
 
+
+        
 	/**
 	  * Access the database and authenticate whether the account
 	  information submitted are listed in the database or not
 	  * If incorrect, either shows "User Not Found" or "Password is Incorrect"
 	  * If succeded, authenticate the user.
 	*/
-        $sql = "SELECT id, name, email, password FROM user WHERE email='$email'";
+        $sql = "SELECT id, name, email, password, isAuthorized FROM user WHERE email='$email'";
+
         $result = $conn->query($sql);
         if($result !== FALSE){
             if ($result->num_rows > 0) {
@@ -31,11 +34,11 @@
                 else{
                     echo "GRANTED:";
                     echo "|";
-                    echo $row["id"];
-                    echo "|";
                     echo $row["name"];
                     echo "|";
                     echo $row["email"];
+                    echo "|";
+                    echo $row["isAuthorized"];
                 }
             }else {
                 echo "User Not Found";

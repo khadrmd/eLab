@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class User : GuestUser
+public class User
 {
-    string username;
-    
-    public void SaveArchive()
+    public static User Instance;
+
+    public enum UserType {AUTHORIZED, NORMAL, GUEST}
+
+    public UserType userType;
+    public string userName;
+
+    public User()
     {
-        archive.Save();
+        if (Instance == null) Instance = this;
+        else
+        {
+            Instance = null;
+            Instance = this;
+        }
     }
 }
