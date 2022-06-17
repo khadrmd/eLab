@@ -1,14 +1,19 @@
-﻿using System.Collections;
+﻿/*
+Include library
+*/
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.Networking;
+using UnityEngine;                  //Unity's base library
+using UnityEngine.UI;               //Unity's UI library
+using TMPro;                        //TextMeshPro (Advance text plugin for Unity)
+using UnityEngine.Networking;       //Unity's networking library
+using UnityEngine.SceneManagement;
 
 public class Authentication : MonoBehaviour
 {
-    const string rootUrl = "http://localhost/elab/";
+    public static Authentication Instance;
 
+    //TextMestPro input field class
     [Header("Authentication")]
     public TMP_InputField loginEmail;
     public TMP_InputField loginPassword;
@@ -18,44 +23,68 @@ public class Authentication : MonoBehaviour
     public TMP_InputField registerPassword;
     public TMP_InputField registerCPassword;
 
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else
+        {
+            Destroy(Instance);
+            Instance = this;
+        }
+    }
+
+    //Once Login button is clicked, start login coroutine
     public void OnLoginButtonClicked()
     {
-        StartCoroutine(Login());
+        WWWForm form = new WWWForm();
+
+        form.AddField("email", loginEmail.text);
+        form.AddField("password", loginPassword.text);
+        Database.Instance.Login(form);
     }
 
+    public void OnContinueAsGuestClicked()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    //Not finished yet
     public void OnRegisterButtonClicked()
     {
+        if (!registerPassword.text.Equals(registerCPassword.text))
+        {
+            Debug.Log("Password does not match!");
+        }
+        else
+        {
+            WWWForm form = new WWWForm();
 
+            form.AddField("fullname", registerUsername.text);
+            form.AddField("email", registerEmail.text);
+            form.AddField("password", registerPassword.text);
+            form.AddField("cpassword", registerCPassword.text);
+            Database.Instance.Register(form);
+        }
     }
 
-	IEnumerator Login()
-	{
-		WWWForm	form = new WWWForm();
+    public void Clear()
+    {
+        loginEmail.text = "";
+        loginPassword.text = "";
 
-		form.AddField("email", loginEmail.text);
-		form.AddField("password", loginPassword.text);
+        registerUsername.text = "";
+        registerEmail.text = "";
+        registerPassword.text = "";
+        registerCPassword.text = "";
+    }
 
-        using (UnityWebRequest www = UnityWebRequest.Post(rootUrl + "login.php", form))
-        {
-            yield return www.SendWebRequest();
+    public void BeginSession(User.UserType userType, string userName)
+    {
+        User user = new User();
+        user.userType = userType;
+        user.userName = userName;
 
-            if (www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                string responseText = www.downloadHandler.text;
-                if (responseText.StartsWith("GRANTED"))
-                {
-                    string[] dataChunks = responseText.Split('|');
-                    foreach (var data in dataChunks)
-                    {
-                        Debug.Log(data);
-                    }
-                }
-                else Debug.Log(responseText);
-            }
-        }
-	}
+        if (user.userType.Equals(User.UserType.AUTHORIZED)) SceneManager.LoadScene(3);
+        else if (user.userType.Equals(User.UserType.NORMAL)) SceneManager.LoadScene(2);
+    }
 }

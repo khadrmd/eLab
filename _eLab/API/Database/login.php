@@ -6,7 +6,7 @@
         $email = $_POST["email"];
         $password = $_POST["password"];
 
-        $sql = "SELECT id, name, email, password FROM user WHERE email='$email'";
+        $sql = "SELECT id, name, email, password, isAuthorized FROM user WHERE email='$email'";
         $result = $conn->query($sql);
         if($result !== FALSE){
             if ($result->num_rows > 0) {
@@ -15,11 +15,11 @@
                 else{
                     echo "GRANTED:";
                     echo "|";
-                    echo $row["id"];
-                    echo "|";
                     echo $row["name"];
                     echo "|";
                     echo $row["email"];
+                    echo "|";
+                    echo $row["isAuthorized"];
                 }
             }else {
                 echo "User Not Found";
