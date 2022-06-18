@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SearchPanel
   - System
+  - ContentParent
   layers:
   - Default
   - TransparentFX

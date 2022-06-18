@@ -1531,6 +1531,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599008817}
   m_CullTransparentMesh: 0
+--- !u!1 &656524131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 656524132}
+  - component: {fileID: 656524133}
+  m_Layer: 0
+  m_Name: APP MANAGER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &656524132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656524131}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &656524133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656524131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01850faa9a3dfb84e8e677197337037f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  archivePref: {fileID: 8965614612761398769, guid: 1836bf2c934568048887e64ed7c20e2e,
+    type: 3}
+  imgPlaceholder: {fileID: 2800000, guid: efb7605c70876654b83ca022522b6d09, type: 3}
 --- !u!1 &710596391
 GameObject:
   m_ObjectHideFlags: 0
@@ -3258,15 +3304,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea88a0c85a30c048a1dc007638e934c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  contentParent: {fileID: 0}
   LoginPage: {fileID: 1526762399}
   RegisterPage: {fileID: 727806076}
   searchPanel: {fileID: 0}
   searchField: {fileID: 0}
+  toggleGroup: {fileID: 0}
   events: {fileID: 0}
   projects: {fileID: 0}
   achievements: {fileID: 0}
   saved: {fileID: 0}
   dateField: {fileID: 0}
+  createPanel: {fileID: 0}
+  title: {fileID: 0}
+  desc: {fileID: 0}
+  type: {fileID: 0}
   accountName: {fileID: 0}
 --- !u!1 &1248940579
 GameObject:

@@ -18,21 +18,37 @@ public class Database : MonoBehaviour
         }
     }
 
-    public void Search(string query)
+    public void ReadArchive(WWWForm form)
     {
-        StartCoroutine(SearchReq(query));
+        StartCoroutine(ReadArchiveReq(form));
     }
 
-    IEnumerator SearchReq(string query)
+    IEnumerator ReadArchiveReq(WWWForm form)
     {
-        string[] queries = query.Split('-');
-        foreach (var item in queries)
+        using (UnityWebRequest www = UnityWebRequest.Post(rootUrl + "read_archive.php", form))
         {
-            Debug.Log(item);
-        }
+            yield return www.SendWebRequest();
 
-        yield return null;
-        UIManager.Instance.ClearPanel();
+            if (www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string responseText = www.downloadHandler.text;
+                if (!responseText.StartsWith("No"))
+                {
+                    string[] archives = responseText.Split('#');
+                    AppManager.Instance.LoadArchive(archives);
+                }
+                else
+                {
+                    Debug.Log(responseText);
+                    AppManager.Instance.ClearContent();
+                }
+                UIManager.Instance.ClearPanel();
+            }
+        }
     }
 
     public void Login(WWWForm form)
@@ -42,19 +58,16 @@ public class Database : MonoBehaviour
 
     IEnumerator LoginReq(WWWForm form)
     {
-        //Unity's method for sending packets
         using (UnityWebRequest www = UnityWebRequest.Post(rootUrl + "login.php", form))
         {
             yield return www.SendWebRequest();
 
-            //If sending failed, output the fail error
             if (www.isHttpError)
             {
                 Debug.Log(www.error);
             }
             else
             {
-                //If successful, download the response from the API
                 string responseText = www.downloadHandler.text;
                 if (responseText.StartsWith("GRANTED"))
                 {
