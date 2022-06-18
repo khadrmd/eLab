@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("Home Page")]
+    public Transform contentParent;
+
     [Header("Pages")]
     public GameObject LoginPage;
     public GameObject RegisterPage;
@@ -16,6 +19,7 @@ public class UIManager : MonoBehaviour
     [Header("Search Panel")]
     public GameObject searchPanel;
     public TMP_InputField searchField;
+    public ToggleGroup toggleGroup;
     public Toggle events;
     public Toggle projects;
     public Toggle achievements;
@@ -43,6 +47,8 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 3) Debug.Log(type.options[type.value].text);
+
         if (SceneManager.GetActiveScene().buildIndex == 0) //If on auth page
         {
             LoginPage.SetActive(true);
@@ -121,16 +127,12 @@ public class UIManager : MonoBehaviour
     public void OnSearchButtonClicked()
     {
         string query = "";
-        if (saved != null)
+        query = string.Format("{0}|", dateField.text);
+        foreach (var filter in toggleGroup.ActiveToggles())
         {
-            query = string.Format("{0}-{1}-{2}-{3}-{4}", dateField.text,events.isOn, projects.isOn, achievements.isOn, saved.isOn);
+            query = query + filter.name;
         }
-        else
-        {
-            query = string.Format("{0}-{1}-{2}-{3}", dateField.text, events.isOn, projects.isOn, achievements.isOn);
-        }
-
-        Database.Instance.Search(query);
+        AppManager.Instance.SearchArchive(query);
     }
 }
     

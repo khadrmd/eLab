@@ -45,7 +45,7 @@ public class Authentication : MonoBehaviour
 
     public void OnContinueAsGuestClicked()
     {
-        SceneManager.LoadScene(1);
+        AppManager.Instance.LoadScene(1);
     }
 
     //Not finished yet
@@ -84,7 +84,7 @@ public class Authentication : MonoBehaviour
         user.userType = userType;
         user.userName = userName;
 
-        if (user.userType.Equals(User.UserType.AUTHORIZED)) SceneManager.LoadScene(3);
-        else if (user.userType.Equals(User.UserType.NORMAL)) SceneManager.LoadScene(2);
+        if (user.userType.Equals(User.UserType.AUTHORIZED)) AppManager.Instance.LoadScene(3);
+        else if (user.userType.Equals(User.UserType.NORMAL)) AppManager.Instance.LoadScene(2);
     }
 }
