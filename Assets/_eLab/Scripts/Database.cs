@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class Database : MonoBehaviour
 {
@@ -112,6 +113,36 @@ public class Database : MonoBehaviour
         }
     }
 
+    public void UpdateArchive(WWWForm form)
+    {
+        StartCoroutine(UpdateArchiveReq(form));
+    }
+
+    IEnumerator UpdateArchiveReq(WWWForm form)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Post(rootUrl + "update_archive.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string responseText = www.downloadHandler.text;
+                if (responseText.StartsWith("SUCCESS"))
+                {
+                    AppManager.Instance.LoadScene(3);
+                }
+                else
+                {
+                    Debug.Log(responseText);
+                }
+            }
+        }
+    }
+
     public void Login(WWWForm form)
     {
         StartCoroutine(LoginReq(form));
@@ -176,6 +207,7 @@ public class Database : MonoBehaviour
                 }
                 else Debug.Log(responseText);
                 Authentication.Instance.Clear();
+                SceneManager.LoadScene(0);
             }
         }
     }

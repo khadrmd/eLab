@@ -10,6 +10,8 @@ public class ArchiveData
     public string title;
     public string desc;
     public string date;
+    public string type;
+    public string author;
     public string img;
 
     public ArchiveData()

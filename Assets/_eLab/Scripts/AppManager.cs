@@ -34,7 +34,7 @@ public class AppManager : MonoBehaviour
             yield return null;
         }
         Debug.Log("Scene Loaded");
-        SearchArchive("|");
+        SearchArchive("||");
     }
 
     public void BeginSession(User.UserType userType, string userName, int id)
@@ -62,8 +62,9 @@ public class AppManager : MonoBehaviour
         string[] att = query.Split('|');
 
         WWWForm form = new WWWForm();
-        form.AddField("date", att[0]);
-        form.AddField("filter", att[1]);
+        form.AddField("keyword", att[0]);
+        form.AddField("date", att[1]);
+        form.AddField("filter", att[2]);
 
         Database.Instance.ReadArchive(form);
     }
@@ -113,7 +114,25 @@ public class AppManager : MonoBehaviour
         Database.Instance.DeleteArchive(form);
     }
 
+    public void EditArchive(string[] attributes)
+    {
+        if(attributes.Length == 5)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("id", int.Parse(attributes[0]));
+            form.AddField("title", attributes[1]);
+            form.AddField("desc", attributes[2]);
+            form.AddField("date", attributes[3]);
+            form.AddField("type", attributes[4]);
 
+            Database.Instance.UpdateArchive(form);
+        }
+        else
+        {
+            Debug.LogError("Edit Input ERROR");
+        }
+        
+    }
     public void ClearContent()
     {
         Transform parent = UIManager.Instance.contentParent;

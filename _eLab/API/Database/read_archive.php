@@ -13,7 +13,7 @@
         }else if(empty($_POST["date"]) && !empty($_POST["filter"])){
             $sql = "SELECT * FROM archive WHERE type='$filter'";
         }else if(!empty($_POST["date"]) && empty($_POST["filter"])){
-            $sql = "SELECT * FROM archive WHERE date='$date'";
+            $sql = "SELECT * FROM archive WHERE DATE(date)='$date'";
         }
 
         $result = $conn->query($sql);
@@ -21,6 +21,8 @@
             if ($result->num_rows > 0) {
                 $counter = 0;
                 while($row = $result->fetch_assoc()){
+                    echo $row["archive_id"];
+                    echo "|";
                     echo $row["title"];
                     echo "|";
                     echo $row["desc"];
@@ -28,6 +30,8 @@
                     echo $row["type"];
                     echo "|";
                     echo $row["authorName"];
+                    echo "|";
+                    echo $row["date"];
                     echo "|";
                     if(empty($row["image"])) echo "null";
                     else echo base64_encode($row['image']);
