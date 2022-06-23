@@ -15,6 +15,8 @@
                 else{
                     echo "GRANTED:";
                     echo "|";
+                    echo $row["id"];
+                    echo "|";
                     echo $row["name"];
                     echo "|";
                     echo $row["email"];

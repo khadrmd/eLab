@@ -62,7 +62,7 @@ public class UIManager : MonoBehaviour
 
     void _Init_()
     {
-        if (SceneManager.GetActiveScene().buildIndex != 1)
+        if (SceneManager.GetActiveScene().buildIndex != 1 && SceneManager.GetActiveScene().buildIndex != 4)
         {
             accountName.text = User.Instance.userName;
         }
@@ -138,7 +138,7 @@ public class UIManager : MonoBehaviour
     public void OnSearchButtonClicked()
     {
         string query = "";
-        query = string.Format("{0}|",  searchDate.text);
+        query = string.Format("{0}|{1}|", searchField.text, searchDate.text);
         foreach (var filter in searchToggleGroup.ActiveToggles())
         {
             query = query + filter.name;

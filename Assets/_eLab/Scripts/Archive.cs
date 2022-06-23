@@ -47,8 +47,24 @@ public class Archive : MonoBehaviour
         archive.title = title.text;
         archive.desc = desc.text;
         archive.date = date.text;
+        archive.type = type.text;
+        archive.author = author.text;   
         Texture2D tex = img.texture as Texture2D;
         archive.img = System.Convert.ToBase64String(tex.EncodeToPNG());
-        AppManager.Instance.LoadScene(5);
+        SceneManager.LoadScene(5);
+    }
+
+    public void OnArchiveExpand()
+    {
+        ArchiveData archive = new ArchiveData();
+        archive.id = id;
+        archive.title = title.text;
+        archive.desc = desc.text;
+        archive.date = date.text;
+        archive.type = type.text;
+        archive.author = author.text;
+        Texture2D tex = img.texture as Texture2D;
+        archive.img = System.Convert.ToBase64String(tex.EncodeToPNG());
+        SceneManager.LoadScene(4);
     }
 }

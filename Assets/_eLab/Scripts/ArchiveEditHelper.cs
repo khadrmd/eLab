@@ -48,4 +48,17 @@ public class ArchiveEditHelper : MonoBehaviour
     {
         confirmDeletePanel.SetActive(false);
     }
+
+    public void OnSaveEditClicked()
+    {
+        
+        string[] attributes = new string[5];
+        attributes[0] = ArchiveData.Instance.id.ToString();
+        attributes[1] = title.text;
+        attributes[2] = desc.text;
+        attributes[3] = date.text;
+        attributes[4] = type.options[type.value].text;
+
+        AppManager.Instance.EditArchive(attributes);
+    }
 }
