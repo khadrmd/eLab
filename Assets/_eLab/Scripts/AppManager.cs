@@ -133,7 +133,7 @@ public class AppManager : MonoBehaviour
         }
         
     }
-
+    
     public void ClearContent()
     {
         Transform parent = UIManager.Instance.contentParent;
