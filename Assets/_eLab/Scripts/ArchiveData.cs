@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class User
+public class ArchiveData
 {
-    public static User Instance;
+    public static ArchiveData Instance;
 
-    public enum UserType {AUTHORIZED, NORMAL, GUEST}
-
-    public UserType userType;
-    public string userName;
     public int id;
+    public string title;
+    public string desc;
+    public string date;
+    public string img;
 
-    public User()
+    public ArchiveData()
     {
         if (Instance == null) Instance = this;
         else

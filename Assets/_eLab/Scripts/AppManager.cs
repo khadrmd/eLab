@@ -116,9 +116,12 @@ public class AppManager : MonoBehaviour
     public void ClearContent()
     {
         Transform parent = UIManager.Instance.contentParent;
-        for (int i = 0; i < parent.childCount; i++)
+        if(parent != null)
         {
-            Destroy(parent.GetChild(i).gameObject);
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                Destroy(parent.GetChild(i).gameObject);
+            }
         }
     }
 }

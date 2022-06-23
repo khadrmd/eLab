@@ -1,19 +1,15 @@
-﻿/*
-Include library
-*/
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;                  //Unity's base library
-using UnityEngine.UI;               //Unity's UI library
-using TMPro;                        //TextMeshPro (Advance text plugin for Unity)
-using UnityEngine.Networking;       //Unity's networking library
+using UnityEngine;                  
+using UnityEngine.UI;               
+using TMPro;                        
+using UnityEngine.Networking;       
 using UnityEngine.SceneManagement;
 
 public class Authentication : MonoBehaviour
 {
     public static Authentication Instance;
 
-    //TextMestPro input field class
     [Header("Authentication")]
     public TMP_InputField loginEmail;
     public TMP_InputField loginPassword;
@@ -33,7 +29,6 @@ public class Authentication : MonoBehaviour
         }
     }
 
-    //Once Login button is clicked, start login coroutine
     public void OnLoginButtonClicked()
     {
         WWWForm form = new WWWForm();
@@ -45,10 +40,9 @@ public class Authentication : MonoBehaviour
 
     public void OnContinueAsGuestClicked()
     {
-        AppManager.Instance.LoadScene(1);
+        AppManager.Instance.BeginSession(User.UserType.GUEST);
     }
 
-    //Not finished yet
     public void OnRegisterButtonClicked()
     {
         if (!registerPassword.text.Equals(registerCPassword.text))
@@ -76,15 +70,5 @@ public class Authentication : MonoBehaviour
         registerEmail.text = "";
         registerPassword.text = "";
         registerCPassword.text = "";
-    }
-
-    public void BeginSession(User.UserType userType, string userName)
-    {
-        User user = new User();
-        user.userType = userType;
-        user.userName = userName;
-
-        if (user.userType.Equals(User.UserType.AUTHORIZED)) AppManager.Instance.LoadScene(3);
-        else if (user.userType.Equals(User.UserType.NORMAL)) AppManager.Instance.LoadScene(2);
     }
 }

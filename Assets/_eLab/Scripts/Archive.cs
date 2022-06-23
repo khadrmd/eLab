@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Archive : MonoBehaviour
 {
@@ -20,23 +21,34 @@ public class Archive : MonoBehaviour
 
     private void Start()
     {
-        if(User.Instance.userType == User.UserType.AUTHORIZED)
+        if(SceneManager.GetActiveScene().buildIndex <= 3)
         {
-            optionButton.SetActive(true);
-            saveToggle.SetActive(true);
-        }else if(User.Instance.userType == User.UserType.NORMAL)
-        {
-            saveToggle.SetActive(true);
-        }
-        else
-        {
-            optionButton.SetActive(false);
-            saveToggle.SetActive(false);
+            if (User.Instance.userType == User.UserType.AUTHORIZED)
+            {
+                optionButton.SetActive(true);
+                saveToggle.SetActive(true);
+            }
+            else if (User.Instance.userType == User.UserType.NORMAL)
+            {
+                saveToggle.SetActive(true);
+            }
+            else
+            {
+                optionButton.SetActive(false);
+                saveToggle.SetActive(false);
+            }
         }
     }
 
-    public void Delete()
+    public void OnOptionButtonClicked()
     {
-        AppManager.Instance.DeleteArchive(this.id);
+        ArchiveData archive = new ArchiveData();
+        archive.id = id;
+        archive.title = title.text;
+        archive.desc = desc.text;
+        archive.date = date.text;
+        Texture2D tex = img.texture as Texture2D;
+        archive.img = System.Convert.ToBase64String(tex.EncodeToPNG());
+        AppManager.Instance.LoadScene(5);
     }
 }
