@@ -44,9 +44,70 @@ public class Database : MonoBehaviour
                 else
                 {
                     Debug.Log(responseText);
-                    AppManager.Instance.ClearContent();
                 }
                 UIManager.Instance.ClearPanel();
+            }
+        }
+    }
+
+    public void InputArchive(WWWForm form)
+    {
+        StartCoroutine(InputArchiveReq(form));
+    }
+
+    IEnumerator InputArchiveReq(WWWForm form)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Post(rootUrl + "create_archive.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string responseText = www.downloadHandler.text;
+                if (responseText.StartsWith("SUCCESS"))
+                {
+                    AppManager.Instance.SearchArchive("|");
+                }
+                else
+                {
+                    Debug.Log(responseText);
+                }
+                UIManager.Instance.ClearPanel();
+            }
+        }
+    }
+
+    public void DeleteArchive(WWWForm form)
+    {
+        StartCoroutine(DeleteArchiveReq(form));
+    }
+
+    IEnumerator DeleteArchiveReq(WWWForm form)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Post(rootUrl + "delete_archive.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string responseText = www.downloadHandler.text;
+                if (responseText.StartsWith("SUCCESS"))
+                {
+                    AppManager.Instance.SearchArchive("|");
+                }
+                else
+                {
+                    Debug.Log(responseText);
+                }
+                AppManager.Instance.SearchArchive("|");
             }
         }
     }
@@ -73,13 +134,13 @@ public class Database : MonoBehaviour
                 {
                     Authentication.Instance.Clear();
                     string[] dataChunks = responseText.Split('|');
-                    if(int.Parse(dataChunks[3]) == 1)
+                    if(int.Parse(dataChunks[4]) == 1)
                     {
-                        Authentication.Instance.BeginSession(User.UserType.AUTHORIZED, dataChunks[1]);
+                        AppManager.Instance.BeginSession(User.UserType.AUTHORIZED, dataChunks[2], int.Parse(dataChunks[1]));
                     }
                     else
                     {
-                        Authentication.Instance.BeginSession(User.UserType.NORMAL, dataChunks[1]);
+                        AppManager.Instance.BeginSession(User.UserType.NORMAL, dataChunks[2], int.Parse(dataChunks[1]));
                     }
                 }
                 else Debug.Log(responseText);

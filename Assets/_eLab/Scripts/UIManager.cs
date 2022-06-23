@@ -19,18 +19,19 @@ public class UIManager : MonoBehaviour
     [Header("Search Panel")]
     public GameObject searchPanel;
     public TMP_InputField searchField;
-    public ToggleGroup toggleGroup;
+    public ToggleGroup searchToggleGroup;
     public Toggle events;
     public Toggle projects;
     public Toggle achievements;
     public Toggle saved;
-    public TMP_InputField dateField;
+    public TMP_InputField searchDate;
 
     [Header("Create Panel")]
     public GameObject createPanel;
-    public TMP_InputField title;
-    public TMP_InputField desc;
-    public TMP_Dropdown type;
+    public TMP_InputField createTitle;
+    public TMP_InputField createDesc;
+    public TMP_Dropdown createType;
+    public TMP_InputField createDate;
 
     [Header("Account")]
     public TextMeshProUGUI accountName;
@@ -47,13 +48,11 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 3) Debug.Log(type.options[type.value].text);
-
         if (SceneManager.GetActiveScene().buildIndex == 0) //If on auth page
         {
             LoginPage.SetActive(true);
             RegisterPage.SetActive(false);
-        }
+        }else if (SceneManager.GetActiveScene().buildIndex == 4 || SceneManager.GetActiveScene().buildIndex == 5) _Init_();
         else
         {
             searchPanel.SetActive(false);
@@ -63,10 +62,18 @@ public class UIManager : MonoBehaviour
 
     void _Init_()
     {
-        if (SceneManager.GetActiveScene().buildIndex != 1) accountName.text = User.Instance.userName;
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            accountName.text = User.Instance.userName;
+        }
     }
 
-    
+    public void OnBackButtonClicked()
+    {
+        if (User.Instance.userType == User.UserType.AUTHORIZED) AppManager.Instance.LoadScene(3);
+        else if (User.Instance.userType == User.UserType.NORMAL) AppManager.Instance.LoadScene(2);
+        else AppManager.Instance.LoadScene(1);
+    }
 
     public void OnSignUpClicked()
     {
@@ -113,26 +120,42 @@ public class UIManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 3)
         {
-            title.text = string.Empty;
-            desc.text = string.Empty;
+            createTitle.text = string.Empty;
+            createDesc.text = string.Empty;
+            createDate.text = string.Empty;
         }
 
-        dateField.text = string.Empty;
-        events.isOn = false;
-        projects.isOn = false;
-        achievements.isOn = false;
-        if (saved != null) saved.isOn = false;
+        if (SceneManager.GetActiveScene().buildIndex <= 3)
+        {
+            searchDate.text = string.Empty;
+            events.isOn = false;
+            projects.isOn = false;
+            achievements.isOn = false;
+            if (saved != null) saved.isOn = false;
+        }
     }
 
     public void OnSearchButtonClicked()
     {
         string query = "";
-        query = string.Format("{0}|", dateField.text);
-        foreach (var filter in toggleGroup.ActiveToggles())
+        query = string.Format("{0}|",  searchDate.text);
+        foreach (var filter in searchToggleGroup.ActiveToggles())
         {
             query = query + filter.name;
         }
         AppManager.Instance.SearchArchive(query);
+    }
+
+    public void OnPostButtonClicked()
+    {
+        string[] attributes =  new string[5];
+        attributes[0] = createTitle.text;
+        attributes[1] = createDesc.text;
+        attributes[2] = createType.options[createType.value].text;
+        attributes[3] = createDate.text;
+        attributes[4] = User.Instance.userName;
+
+        AppManager.Instance.CreateArchive(attributes);
     }
 }
     

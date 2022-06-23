@@ -37,6 +37,26 @@ public class AppManager : MonoBehaviour
         SearchArchive("|");
     }
 
+    public void BeginSession(User.UserType userType, string userName, int id)
+    {
+        User user = new User();
+        user.userType = userType;
+        user.userName = userName;
+        user.id = id;
+
+        if (user.userType.Equals(User.UserType.AUTHORIZED)) LoadScene(3);
+        else if (user.userType.Equals(User.UserType.NORMAL)) LoadScene(2);
+    }
+
+    public void BeginSession(User.UserType userType)
+    {
+        User user = new User();
+        user.userType = userType;
+        user.userName = null;
+        user.id = 0;
+        LoadScene(1);
+    }
+
     public void SearchArchive(string query)
     {
         string[] att = query.Split('|');
@@ -56,14 +76,16 @@ public class AppManager : MonoBehaviour
             string[] attributes = archive.Split('|');
             var arch = Instantiate(archivePref, UIManager.Instance.contentParent);
             Archive archAtt = arch.GetComponent<Archive>();
-            archAtt.title.text = attributes[0];
-            archAtt.desc.text = attributes[1];
-            archAtt.type.text = attributes[2];
-            archAtt.author.text = attributes[3];
-            if (attributes[4].Equals("null")) archAtt.img.texture = imgPlaceholder;
+            archAtt.id = int.Parse(attributes[0]);
+            archAtt.title.text = attributes[1];
+            archAtt.desc.text = attributes[2];
+            archAtt.type.text = attributes[3];
+            archAtt.author.text = attributes[4];
+            archAtt.date.text = attributes[5];
+            if (attributes[6].Equals("null")) archAtt.img.texture = imgPlaceholder;
             else
             {
-                byte[] imgBytes = System.Convert.FromBase64String(attributes[4]);
+                byte[] imgBytes = System.Convert.FromBase64String(attributes[6]);
                 Texture2D tex = new Texture2D(1, 1);
                 tex.LoadImage(imgBytes);
                 archAtt.img.texture = tex;
@@ -71,12 +93,36 @@ public class AppManager : MonoBehaviour
         }
     }
 
+    public void CreateArchive(string[] attributes)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("title", attributes[0]);
+        form.AddField("desc", attributes[1]);
+        form.AddField("type", attributes[2]);
+        form.AddField("date", attributes[3]);
+        form.AddField("author", attributes[4]);
+
+        Database.Instance.InputArchive(form);
+    }
+
+    public void DeleteArchive(int id)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", id);
+
+        Database.Instance.DeleteArchive(form);
+    }
+
+
     public void ClearContent()
     {
         Transform parent = UIManager.Instance.contentParent;
-        for (int i = 0; i < parent.childCount; i++)
+        if(parent != null)
         {
-            Destroy(parent.GetChild(i).gameObject);
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                Destroy(parent.GetChild(i).gameObject);
+            }
         }
     }
 }

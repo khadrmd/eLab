@@ -2780,16 +2780,17 @@ MonoBehaviour:
   RegisterPage: {fileID: 0}
   searchPanel: {fileID: 212693984}
   searchField: {fileID: 1271875612}
-  toggleGroup: {fileID: 1035543671}
+  searchToggleGroup: {fileID: 1035543671}
   events: {fileID: 1264732814}
   projects: {fileID: 452603840}
   achievements: {fileID: 704652598}
   saved: {fileID: 0}
-  dateField: {fileID: 1108027330}
+  searchDate: {fileID: 1108027330}
   createPanel: {fileID: 0}
-  title: {fileID: 0}
-  desc: {fileID: 0}
-  type: {fileID: 0}
+  createTitle: {fileID: 0}
+  createDesc: {fileID: 0}
+  createType: {fileID: 0}
+  createDate: {fileID: 0}
   accountName: {fileID: 0}
 --- !u!1 &1142778311
 GameObject:

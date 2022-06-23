@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_eLab/Scenes/MainPageAuthorized.unity
     guid: eb34c6093d854ed4e84ecb1a49f1e74b
+  - enabled: 1
+    path: Assets/_eLab/Scenes/ArchiveExpand.unity
+    guid: 16fa2a4ef8c4213408b62c8d2d68f88d
+  - enabled: 1
+    path: Assets/_eLab/Scenes/ArchiveEdit.unity
+    guid: 2fd1664f3a4150543b5a3080f145811c
   m_configObjects: {}
