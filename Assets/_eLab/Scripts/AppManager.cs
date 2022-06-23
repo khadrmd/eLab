@@ -113,7 +113,6 @@ public class AppManager : MonoBehaviour
         Database.Instance.DeleteArchive(form);
     }
 
-
     public void ClearContent()
     {
         Transform parent = UIManager.Instance.contentParent;
