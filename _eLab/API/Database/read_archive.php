@@ -1,19 +1,28 @@
 <?php 
 	include( dirname(__FILE__) . '/database.php');
-    if(isset($_POST["date"]) && isset($_POST["filter"])){
+    if(isset($_POST["keyword"]) && isset($_POST["date"]) && isset($_POST["filter"])){
+
+        $keyword = $_POST["keyword"];
         $date = $_POST["date"]; 
         $filter = $_POST["filter"];
 
-        $sql = "";
-
-        if(empty($_POST["date"]) && empty($_POST["filter"])){
-            $sql = "SELECT * FROM archive";
-        }else if(!empty($_POST["date"]) && !empty($_POST["filter"])){
-            $sql = "SELECT * FROM archive WHERE date='$date' AND type='$filter'";
-        }else if(empty($_POST["date"]) && !empty($_POST["filter"])){
-            $sql = "SELECT * FROM archive WHERE type='$filter'";
-        }else if(!empty($_POST["date"]) && empty($_POST["filter"])){
-            $sql = "SELECT * FROM archive WHERE DATE(date)='$date'";
+        $sql = "SELECT * FROM archive";
+        
+        if(!empty($_POST["keyword"]) || !empty($_POST["date"]) || !empty($_POST["filter"])){
+            $sql .= " WHERE ";
+            if(!empty($_POST["keyword"])){
+                $sql .= "title LIKE '%$keyword%'";
+            }
+            if(!empty($_POST["date"]) && empty($_POST["keyword"])){
+                $sql .= "DATE(date)='$date'";
+            }else if(!empty($_POST["date"]) && !empty($_POST["keyword"])){
+                $sql .= " AND DATE(date)='$date'";
+            }
+            if(!empty($_POST["filter"]) && empty($_POST["date"])){
+                $sql .= "type='$filter'";
+            }else if(!empty($_POST["filter"]) && !empty($_POST["date"])){
+                $sql .= " AND type='$filter'";
+            }
         }
 
         $result = $conn->query($sql);
