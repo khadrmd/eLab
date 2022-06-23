@@ -34,4 +34,9 @@ public class Archive : MonoBehaviour
             saveToggle.SetActive(false);
         }
     }
+
+    public void Delete()
+    {
+        AppManager.Instance.DeleteArchive(this.id);
+    }
 }

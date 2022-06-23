@@ -81,6 +81,37 @@ public class Database : MonoBehaviour
         }
     }
 
+    public void DeleteArchive(WWWForm form)
+    {
+        StartCoroutine(DeleteArchiveReq(form));
+    }
+
+    IEnumerator DeleteArchiveReq(WWWForm form)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Post(rootUrl + "delete_archive.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                string responseText = www.downloadHandler.text;
+                if (responseText.StartsWith("SUCCESS"))
+                {
+                    AppManager.Instance.SearchArchive("|");
+                }
+                else
+                {
+                    Debug.Log(responseText);
+                }
+                AppManager.Instance.SearchArchive("|");
+            }
+        }
+    }
+
     public void Login(WWWForm form)
     {
         StartCoroutine(LoginReq(form));

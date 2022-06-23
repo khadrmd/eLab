@@ -105,6 +105,14 @@ public class AppManager : MonoBehaviour
         Database.Instance.InputArchive(form);
     }
 
+    public void DeleteArchive(int id)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", id);
+
+        Database.Instance.DeleteArchive(form);
+    }
+
     public void ClearContent()
     {
         Transform parent = UIManager.Instance.contentParent;
