@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class AppManager : MonoBehaviour
 {
@@ -28,12 +29,10 @@ public class AppManager : MonoBehaviour
     IEnumerator LoadSceneAsync(int index)
     {
         var asyncLoadLevel = SceneManager.LoadSceneAsync(index);
-        Debug.Log("Loading the Scene");
         while (!asyncLoadLevel.isDone)
         {
             yield return null;
         }
-        Debug.Log("Scene Loaded");
         SearchArchive("||");
     }
 
