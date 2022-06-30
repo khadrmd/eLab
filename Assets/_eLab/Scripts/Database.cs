@@ -71,7 +71,7 @@ public class Database : MonoBehaviour
                 string responseText = www.downloadHandler.text;
                 if (responseText.StartsWith("SUCCESS"))
                 {
-                    AppManager.Instance.SearchArchive("|");
+                    AppManager.Instance.SearchArchive("||");
                 }
                 else
                 {
@@ -102,7 +102,7 @@ public class Database : MonoBehaviour
                 string responseText = www.downloadHandler.text;
                 if (responseText.StartsWith("SUCCESS"))
                 {
-                    AppManager.Instance.SearchArchive("|");
+                    AppManager.Instance.SearchArchive("||");
                 }
                 else
                 {

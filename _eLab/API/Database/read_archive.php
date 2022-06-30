@@ -16,12 +16,12 @@
             if(!empty($_POST["date"]) && empty($_POST["keyword"])){
                 $sql .= "DATE(date)='$date'";
             }else if(!empty($_POST["date"]) && !empty($_POST["keyword"])){
-                $sql .= " AND DATE(date)='$date'";
+                $sql .= " OR DATE(date)='$date'";
             }
             if(!empty($_POST["filter"]) && empty($_POST["date"])){
                 $sql .= "type='$filter'";
             }else if(!empty($_POST["filter"]) && !empty($_POST["date"])){
-                $sql .= " AND type='$filter'";
+                $sql .= " OR type='$filter'";
             }
         }
 
